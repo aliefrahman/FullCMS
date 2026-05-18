@@ -106,7 +106,7 @@ Buka berkas **[config/config.php](file:///var/www/html/fullcms/config/config.php
 <?php
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', 'CDP17s1850913#^_^'); // Masukkan sandi MySQL Anda
+define('DB_PASS', ''); // Masukkan sandi MySQL Anda
 define('DB_NAME', 'cms_db');
 ```
 
