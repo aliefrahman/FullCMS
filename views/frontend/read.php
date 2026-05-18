@@ -51,9 +51,18 @@ foreach (array_slice($parts, 0, 2) as $p) {
             </div>
         </div>
         <!-- Category Badge -->
-        <div
-            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-xs font-bold text-primary-600 shadow-sm mx-auto uppercase tracking-wide">
-            <?php echo htmlspecialchars($article->category_name ?? 'Umum'); ?>
+        <div class="inline-flex mx-auto">
+            <?php if (!empty($article->category_slug)): ?>
+                <a href="<?php echo PUBLIC_URL; ?>/category?slug=<?php echo htmlspecialchars($article->category_slug); ?>"
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-xs font-bold text-primary-600 shadow-sm hover:bg-primary-100 transition-colors uppercase tracking-wide">
+                    <?php echo htmlspecialchars($article->category_name); ?>
+                </a>
+            <?php else: ?>
+                <span
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-xs font-bold text-primary-600 shadow-sm uppercase tracking-wide">
+                    Umum
+                </span>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -123,33 +132,38 @@ foreach (array_slice($parts, 0, 2) as $p) {
                     </h3>
 
                     <!-- Comments Alerts (Flash Session) -->
-                    <?php 
+                    <?php
                     $commentSuccess = \App\Helpers\Session::flash('success');
                     $commentError = \App\Helpers\Session::flash('error');
                     ?>
                     <?php if ($commentSuccess): ?>
-                        <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-600 text-xs font-semibold flex items-center gap-2.5 shadow-sm animate-fade-in">
+                        <div
+                            class="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-600 text-xs font-semibold flex items-center gap-2.5 shadow-sm animate-fade-in">
                             <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0"></i>
-                            <span><?php echo htmlspecialchars($commentSuccess); ?></span>
+                            <span><?php echo e($commentSuccess); ?></span>
                         </div>
                     <?php endif; ?>
                     <?php if ($commentError): ?>
-                        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-100 text-rose-650 text-xs font-semibold flex items-center gap-2.5 shadow-sm animate-fade-in">
+                        <div
+                            class="p-4 rounded-2xl bg-rose-50 border border-rose-100 text-rose-650 text-xs font-semibold flex items-center gap-2.5 shadow-sm animate-fade-in">
                             <i data-lucide="alert-circle" class="w-4 h-4 text-rose-500 shrink-0 animate-bounce"></i>
-                            <span><?php echo htmlspecialchars($commentError); ?></span>
+                            <span><?php echo e($commentError); ?></span>
                         </div>
                     <?php endif; ?>
 
                     <!-- Comments List -->
                     <div class="space-y-4">
                         <?php if (empty($comments)): ?>
-                            <div class="glass rounded-3xl p-8 text-center border border-white/40 space-y-3 bg-linear-to-tr from-slate-50/50 to-white/50">
-                                <div class="w-12 h-12 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
+                            <div
+                                class="glass rounded-3xl p-8 text-center border border-white/40 space-y-3 bg-linear-to-tr from-slate-50/50 to-white/50">
+                                <div
+                                    class="w-12 h-12 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
                                     <i data-lucide="message-circle" class="w-6 h-6"></i>
                                 </div>
                                 <div class="space-y-1">
                                     <h4 class="font-bold text-slate-700 text-sm">Belum Ada Komentar</h4>
-                                    <p class="text-xs text-slate-400 max-w-xs mx-auto">Jadilah yang pertama untuk membagikan pendapat Anda mengenai artikel ini!</p>
+                                    <p class="text-xs text-slate-400 max-w-xs mx-auto">Jadilah yang pertama untuk membagikan
+                                        pendapat Anda mengenai artikel ini!</p>
                                 </div>
                             </div>
                         <?php else: ?>
@@ -161,7 +175,7 @@ foreach (array_slice($parts, 0, 2) as $p) {
                                 foreach (array_slice($cParts, 0, 2) as $p) {
                                     $cInitials .= strtoupper(substr($p, 0, 1));
                                 }
-                                
+
                                 // Determine role badge styling
                                 $roleBadge = '';
                                 if ($c->user_role === 'admin') {
@@ -174,19 +188,22 @@ foreach (array_slice($parts, 0, 2) as $p) {
                                     $roleBadge = '<span class="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-wide">Pembaca</span>';
                                 }
                                 ?>
-                                <div class="glass rounded-3xl p-5 border border-white/50 shadow-xs flex gap-4 items-start relative hover:border-slate-200/60 transition-colors">
+                                <div
+                                    class="glass rounded-3xl p-5 border border-white/50 shadow-xs flex gap-4 items-start relative hover:border-slate-200/60 transition-colors">
                                     <!-- Avatar -->
                                     <div class="shrink-0">
-                                        <?php if (!empty($c->avatar) && file_exists(__DIR__ . '/../../public/uploads/avatars/' . $c->avatar)): ?>
-                                            <img src="<?php echo PUBLIC_URL; ?>/uploads/avatars/<?php echo $c->avatar; ?>"
-                                                class="h-10 w-10 rounded-2xl object-cover border border-slate-100 shadow-sm" alt="Avatar">
+                                        <?php if (!empty($c->avatar) && file_exists(__DIR__ . '/../../public/uploads/avatars/' . e($c->avatar))): ?>
+                                            <img src="<?php echo PUBLIC_URL; ?>/uploads/avatars/<?php echo e($c->avatar); ?>"
+                                                class="h-10 w-10 rounded-2xl object-cover border border-slate-100 shadow-sm"
+                                                alt="Avatar">
                                         <?php else: ?>
-                                            <div class="h-10 w-10 rounded-2xl bg-linear-to-tr from-slate-200 to-slate-300 border border-slate-100 flex items-center justify-center text-slate-600 font-display font-bold text-xs shadow-inner">
-                                                <?php echo $cInitials; ?>
+                                            <div
+                                                class="h-10 w-10 rounded-2xl bg-linear-to-tr from-slate-200 to-slate-300 border border-slate-100 flex items-center justify-center text-slate-600 font-display font-bold text-xs shadow-inner">
+                                                <?php echo e($cInitials); ?>
                                             </div>
                                         <?php endif; ?>
                                     </div>
-                                    
+
                                     <!-- Comment content -->
                                     <div class="space-y-2 flex-1">
                                         <div class="flex flex-wrap items-center gap-2 justify-between">
@@ -215,11 +232,12 @@ foreach (array_slice($parts, 0, 2) as $p) {
                             <!-- Logged In Subscriber/User Form -->
                             <div class="glass rounded-3xl p-6 border border-white/50 shadow-md space-y-4">
                                 <div class="flex items-center gap-3">
-                                    <?php if (!empty($_SESSION['avatar']) && file_exists(__DIR__ . '/../../public/uploads/avatars/' . $_SESSION['avatar'])): ?>
-                                        <img src="<?php echo PUBLIC_URL; ?>/uploads/avatars/<?php echo $_SESSION['avatar']; ?>"
+                                    <?php if (!empty($_SESSION['avatar']) && file_exists(__DIR__ . '/../../public/uploads/avatars/' . e($_SESSION['avatar']))): ?>
+                                        <img src="<?php echo PUBLIC_URL; ?>/uploads/avatars/<?php echo e($_SESSION['avatar']); ?>"
                                             class="h-8 w-8 rounded-xl object-cover shadow-xs border border-slate-100">
                                     <?php else: ?>
-                                        <div class="h-8 w-8 rounded-xl bg-linear-to-tr from-primary-600 to-accent-500 flex items-center justify-center text-white font-display font-bold text-xs shadow-sm">
+                                        <div
+                                            class="h-8 w-8 rounded-xl bg-linear-to-tr from-primary-600 to-accent-500 flex items-center justify-center text-white font-display font-bold text-xs shadow-sm">
                                             <?php echo strtoupper(substr($_SESSION['username'] ?? 'U', 0, 2)); ?>
                                         </div>
                                     <?php endif; ?>
@@ -236,16 +254,19 @@ foreach (array_slice($parts, 0, 2) as $p) {
                                 <form action="<?php echo PUBLIC_URL; ?>/comment/store" method="POST" class="space-y-4">
                                     <?php echo \App\Helpers\Security::csrfField(); ?>
                                     <input type="hidden" name="article_id" value="<?php echo intval($article->id); ?>">
-                                    
+
                                     <div class="space-y-1.5">
-                                        <textarea name="content" rows="4" placeholder="Tulis komentar Anda secara bijak..." class="w-full rounded-2xl border border-slate-200 p-4 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 focus:outline-none bg-slate-50/50 text-slate-800 text-xs sm:text-sm transition-all" required></textarea>
+                                        <textarea name="content" rows="4" placeholder="Tulis komentar Anda secara bijak..."
+                                            class="w-full rounded-2xl border border-slate-200 p-4 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 focus:outline-none bg-slate-50/50 text-slate-800 text-xs sm:text-sm transition-all"
+                                            required></textarea>
                                     </div>
-                                    
+
                                     <div class="flex justify-between items-center">
                                         <span class="text-[10px] text-slate-400 font-medium">
                                             💡 Komentar Anda akan ditinjau dan dimoderasi terlebih dahulu.
                                         </span>
-                                        <button type="submit" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white btn-primary shadow-md shadow-primary-500/10 hover:shadow-lg transition-all cursor-pointer">
+                                        <button type="submit"
+                                            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white btn-primary shadow-md shadow-primary-500/10 hover:shadow-lg transition-all cursor-pointer">
                                             Kirim Komentar <i data-lucide="send" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
@@ -253,18 +274,22 @@ foreach (array_slice($parts, 0, 2) as $p) {
                             </div>
                         <?php else: ?>
                             <!-- Guest Prompt (CTA to Login/Register) -->
-                            <div class="glass rounded-3xl p-8 text-center border border-white/60 space-y-4 shadow-sm bg-linear-to-tr from-slate-50/80 to-white/80">
-                                <div class="w-12 h-12 bg-primary-50 text-primary-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
+                            <div
+                                class="glass rounded-3xl p-8 text-center border border-white/60 space-y-4 shadow-sm bg-linear-to-tr from-slate-50/80 to-white/80">
+                                <div
+                                    class="w-12 h-12 bg-primary-50 text-primary-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
                                     <i data-lucide="message-square-plus" class="w-6 h-6"></i>
                                 </div>
                                 <div class="space-y-1">
                                     <h4 class="font-display font-bold text-slate-800 text-base">Ingin Ikut Berdiskusi?</h4>
                                     <p class="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
-                                        Tamu dan pembaca wajib terdaftar dan masuk menggunakan akun <strong>Subscriber</strong> untuk dapat mengirimkan komentar di artikel ini.
+                                        Tamu dan pembaca wajib terdaftar dan masuk menggunakan akun
+                                        <strong>Subscriber</strong> untuk dapat mengirimkan komentar di artikel ini.
                                     </p>
                                 </div>
                                 <div class="pt-2">
-                                    <a href="<?php echo PUBLIC_URL; ?>/auth" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white btn-primary shadow-md shadow-primary-500/10 hover:shadow-lg transition-all cursor-pointer">
+                                    <a href="<?php echo PUBLIC_URL; ?>/auth"
+                                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white btn-primary shadow-md shadow-primary-500/10 hover:shadow-lg transition-all cursor-pointer">
                                         Masuk / Daftar Akun <i data-lucide="arrow-right" class="w-4 h-4"></i>
                                     </a>
                                 </div>

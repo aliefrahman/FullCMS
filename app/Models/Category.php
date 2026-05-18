@@ -135,4 +135,21 @@ class Category
         $this->db->bind(':id', $id);
         return $this->db->single()->total > 0;
     }
+
+    /**
+     * Get only categories that have at least one published article
+     * @return array
+     */
+    public function getNotEmptyPublished()
+    {
+        $query = "
+            SELECT DISTINCT c.* 
+            FROM categories c 
+            INNER JOIN articles a ON c.id = a.category_id 
+            WHERE a.status = 'published'
+            ORDER BY c.name ASC
+        ";
+        $this->db->query($query);
+        return $this->db->resultSet();
+    }
 }

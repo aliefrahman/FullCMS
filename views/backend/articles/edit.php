@@ -21,7 +21,7 @@ $error = Session::flash('error');
         <div
             class="p-4 rounded-2xl bg-rose-50 border border-rose-100 text-rose-600 text-sm font-semibold flex items-center gap-2.5 shadow-sm animate-fade-in">
             <i data-lucide="alert-circle" class="w-5 h-5 text-rose-500 shrink-0 animate-bounce"></i>
-            <span><?php echo htmlspecialchars($error); ?></span>
+            <span><?php echo e($error); ?></span>
         </div>
     <?php endif; ?>
 
@@ -50,7 +50,7 @@ $error = Session::flash('error');
                     <div class="space-y-1.5">
                         <label class="text-xs font-bold text-slate-650 tracking-wide uppercase">Judul Artikel <span
                                 class="text-rose-500">*</span></label>
-                        <input type="text" name="title" value="<?php echo htmlspecialchars($article->title); ?>"
+                        <input type="text" name="title" value="<?php echo e($article->title); ?>"
                             class="w-full border border-slate-200 rounded-xl px-4 py-3 text-lg font-bold text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all duration-200"
                             required />
                     </div>
@@ -63,7 +63,7 @@ $error = Session::flash('error');
                         <div
                             class="flex items-center border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 text-sm focus-within:bg-white focus-within:ring-2 focus-within:ring-primary-500/20 focus-within:border-primary-500 transition-all duration-200">
                             <span class="text-slate-400 font-medium whitespace-nowrap">/read/</span>
-                            <input type="text" name="slug" value="<?php echo htmlspecialchars($article->slug); ?>"
+                            <input type="text" name="slug" value="<?php echo e($article->slug); ?>"
                                 class="w-full bg-transparent border-none text-slate-700 placeholder-slate-400 focus:outline-none ml-1" />
                         </div>
                     </div>
@@ -74,12 +74,12 @@ $error = Session::flash('error');
 
                         <!-- Hidden textarea to bind form submission -->
                         <textarea name="content" id="article-content" class="hidden"
-                            required><?php echo htmlspecialchars($article->content); ?></textarea>
+                            required><?php echo e($article->content); ?></textarea>
 
                         <!-- Quill Editor Container -->
                         <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
                             <div id="editor" class="h-96 text-slate-800 text-sm">
-                                <?php echo $article->content; ?>
+                                <?php echo e($article->content); ?>
                             </div>
                         </div>
                     </div>
@@ -103,7 +103,7 @@ $error = Session::flash('error');
                                 <option value="">-- Pilih Kategori --</option>
                                 <?php foreach ($categories as $c): ?>
                                     <option value="<?php echo $c->id; ?>" <?php echo ($c->id == $article->category_id) ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($c->name); ?>
+                                        <?php echo e($c->name); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -191,7 +191,7 @@ $error = Session::flash('error');
                                 <label
                                     class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 cursor-pointer text-xs font-bold text-slate-700 select-none transition-all">
                                     <input type="checkbox" name="tags[]" value="<?php echo $t->id; ?>" <?php echo $checked; ?> class="rounded text-primary-600 focus:ring-primary-500/20" />
-                                    <span>#<?php echo htmlspecialchars($t->name); ?></span>
+                                    <span>#<?php echo e($t->name); ?></span>
                                 </label>
                             <?php endforeach; ?>
                         </div>
@@ -243,7 +243,7 @@ $error = Session::flash('error');
                                     <i data-lucide="lock" class="w-4 h-4 text-amber-400"></i>
                                 </div>
                             <?php endif; ?>
-                            <input type="hidden" name="status" value="<?php echo htmlspecialchars($article->status); ?>">
+                            <input type="hidden" name="status" value="<?php echo e($article->status); ?>">
                         <?php endif; ?>
                     </div>
 
@@ -251,41 +251,79 @@ $error = Session::flash('error');
                         <label class="text-xs font-bold text-slate-650 tracking-wide uppercase">Gambar Utama
                             (Thumbnail)</label>
 
-                        <?php if ($article->featured_image): ?>
-                            <div class="mb-3 rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
-                                <img src="<?php echo PUBLIC_URL; ?>/uploads/articles/<?php echo htmlspecialchars($article->featured_image); ?>"
-                                    class="w-full h-32 object-cover" />
-                            </div>
-                        <?php endif; ?>
-
                         <div class="mt-2 flex justify-center rounded-xl border border-dashed border-slate-300 px-6 py-6 hover:bg-slate-50 hover:border-primary-300 transition-all duration-200 group cursor-pointer relative overflow-hidden"
-                            x-data="{ fileName: '' }">
-                            <div class="text-center" x-show="!fileName">
-                                <div
-                                    class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 group-hover:bg-primary-50 transition-colors">
-                                    <i data-lucide="image-plus"
-                                        class="h-4 w-4 text-slate-400 group-hover:text-primary-500"></i>
+                            x-data="{ 
+                                fileName: '',
+                                previewUrl: '<?php echo $article->featured_image ? PUBLIC_URL . '/uploads/articles/' . e($article->featured_image) : ''; ?>',
+                                errorMessage: '',
+                                validateFile(event) {
+                                    const file = event.target.files[0];
+                                    if (!file) {
+                                        this.fileName = '';
+                                        this.previewUrl = '<?php echo $article->featured_image ? PUBLIC_URL . '/uploads/articles/' . e($article->featured_image) : ''; ?>';
+                                        this.errorMessage = '';
+                                        return;
+                                    }
+                                    
+                                    const allowedExtensions = /(\.png|\.jpg|\.jpeg|\.webp)$/i;
+                                    if (!allowedExtensions.exec(file.name)) {
+                                        this.errorMessage = 'Format file tidak didukung! Gunakan PNG, JPG, atau WEBP.';
+                                        this.fileName = '';
+                                        this.previewUrl = '<?php echo $article->featured_image ? PUBLIC_URL . '/uploads/articles/' . e($article->featured_image) : ''; ?>';
+                                        event.target.value = '';
+                                        return;
+                                    }
+                                    
+                                    const maxSize = 2 * 1024 * 1024; // 2MB
+                                    if (file.size > maxSize) {
+                                        this.errorMessage = 'Ukuran file melampaui batas maksimum 2MB!';
+                                        this.fileName = '';
+                                        this.previewUrl = '<?php echo $article->featured_image ? PUBLIC_URL . '/uploads/articles/' . e($article->featured_image) : ''; ?>';
+                                        event.target.value = '';
+                                        return;
+                                    }
+                                    
+                                    this.fileName = file.name;
+                                    this.errorMessage = '';
+                                    this.previewUrl = URL.createObjectURL(file);
+                                }
+                            }">
+                            <div class="text-center flex flex-col items-center justify-center" x-show="!fileName">
+                                <div class="relative w-28 h-28 rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-3 group-hover:scale-102 transition-transform duration-300" x-show="previewUrl">
+                                    <img :src="previewUrl" class="w-full h-full object-cover" alt="Current Image" />
                                 </div>
-                                <div class="mt-3 flex justify-center text-sm leading-6 text-slate-600">
-                                    <span
-                                        class="relative cursor-pointer rounded-md font-semibold text-primary-600 focus-within:outline-none hover:text-primary-500">
-                                        <?php echo $article->featured_image ? 'Ganti Gambar' : 'Pilih File Gambar'; ?>
+                                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 group-hover:bg-primary-50 transition-colors mb-2" x-show="!previewUrl">
+                                    <i data-lucide="image-plus" class="h-4 w-4 text-slate-400 group-hover:text-primary-500"></i>
+                                </div>
+                                <div class="text-sm leading-6 text-slate-600 font-semibold">
+                                    <span class="text-primary-600 hover:text-primary-500">
+                                        <?php echo $article->featured_image ? 'Ganti Gambar Utama' : 'Pilih File Gambar'; ?>
                                     </span>
                                 </div>
                                 <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-1">
-                                    Biarkan kosong jika tidak diganti</p>
+                                    <?php echo $article->featured_image ? 'Biarkan kosong jika tidak diganti' : 'PNG, JPG, WEBP HINGGA 2MB'; ?></p>
                             </div>
-                            <div class="text-center" x-show="fileName" x-cloak>
-                                <div
-                                    class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-500">
-                                    <i data-lucide="check" class="h-5 w-5"></i>
+                            
+                            <div class="w-full flex flex-col items-center justify-center text-center" x-show="fileName" x-cloak>
+                                <div class="relative w-28 h-28 rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-3 group-hover:scale-102 transition-transform duration-300" x-show="previewUrl">
+                                    <img :src="previewUrl" class="w-full h-full object-cover" alt="New Preview Image" />
                                 </div>
-                                <p class="mt-2 text-sm font-bold text-slate-800 truncate px-4" x-text="fileName"></p>
+                                <p class="text-xs font-bold text-slate-800 truncate max-w-[240px] px-4" x-text="fileName"></p>
+                                <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">Klik untuk mengganti gambar</p>
                             </div>
+                            
                             <input id="file-upload" name="featured_image" type="file"
                                 accept="image/png, image/jpeg, image/webp"
                                 class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                @change="fileName = $event.target.files[0].name" />
+                                @click="$event.target.value = ''"
+                                @change="validateFile($event)" />
+                        </div>
+
+                        <!-- Alpine.js Error Message for File Upload -->
+                        <div x-show="errorMessage" x-transition.duration.300ms
+                            class="mt-2 p-3 rounded-xl bg-rose-50 border border-rose-100 text-rose-650 text-xs font-semibold flex items-center gap-2 shadow-xs" x-cloak>
+                            <i data-lucide="alert-circle" class="w-4 h-4 text-rose-500 shrink-0 animate-bounce"></i>
+                            <span x-text="errorMessage"></span>
                         </div>
 
                         <!-- Caption Input -->
@@ -294,7 +332,7 @@ $error = Session::flash('error');
                                 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Keterangan
                                 Gambar (Caption)</label>
                             <input type="text" name="featured_image_caption"
-                                value="<?php echo htmlspecialchars($article->featured_image_caption ?? ''); ?>"
+                                value="<?php echo e($article->featured_image_caption ?? ''); ?>"
                                 placeholder="Tulis takarir gambar (misal: Ilustrasi AI)..."
                                 class="w-full text-xs border border-slate-200 rounded-xl px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all font-medium text-slate-700" />
                         </div>

@@ -47,6 +47,7 @@ $router = new Router();
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/read', [HomeController::class, 'read']);
 $router->get('/p', [HomeController::class, 'page']);
+$router->get('/category', [HomeController::class, 'category']);
 
 // Rute Otentikasi
 $router->get('/auth', [AuthController::class, 'index']);

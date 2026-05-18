@@ -51,7 +51,7 @@ class Article
     public function getPublished()
     {
         $query = "
-            SELECT a.*, c.name as category_name, u.full_name as author_name 
+            SELECT a.*, c.name as category_name, c.slug as category_slug, u.full_name as author_name 
             FROM articles a 
             LEFT JOIN categories c ON a.category_id = c.id 
             LEFT JOIN users u ON a.author_id = u.id 
@@ -59,6 +59,26 @@ class Article
             ORDER BY a.published_at DESC, a.created_at DESC
         ";
         $this->db->query($query);
+        return $this->db->resultSet();
+    }
+
+    /**
+     * Get published articles by category
+     * @param int $categoryId
+     * @return array
+     */
+    public function getPublishedByCategory($categoryId)
+    {
+        $query = "
+            SELECT a.*, c.name as category_name, c.slug as category_slug, u.full_name as author_name 
+            FROM articles a 
+            LEFT JOIN categories c ON a.category_id = c.id 
+            LEFT JOIN users u ON a.author_id = u.id 
+            WHERE a.status = 'published' AND a.category_id = :category_id
+            ORDER BY a.published_at DESC, a.created_at DESC
+        ";
+        $this->db->query($query);
+        $this->db->bind(':category_id', $categoryId);
         return $this->db->resultSet();
     }
 

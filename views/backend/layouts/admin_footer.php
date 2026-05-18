@@ -24,6 +24,12 @@
             }
         });
 
+        // Populate Quill with any existing/old content from the hidden textarea
+        const contentArea = document.getElementById('article-content');
+        if (contentArea && contentArea.value) {
+            quill.root.innerHTML = contentArea.value;
+        }
+
         // Sync Quill editor HTML with the hidden textarea
         quill.on('text-change', function () {
             document.getElementById('article-content').value = quill.getSemanticHTML();
