@@ -1,0 +1,21 @@
+{
+    "subscriber": [
+        "read_articles"
+    ],
+    "author": [
+        "create_articles",
+        "read_articles",
+        "access_admin"
+    ],
+    "editor": [
+        "publish_articles",
+        "edit_articles",
+        "create_articles",
+        "read_articles",
+        "access_admin"
+    ],
+    "admin": [
+        "all_access",
+        "access_admin"
+    ]
+}
