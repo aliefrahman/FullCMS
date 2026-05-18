@@ -1,0 +1,22 @@
+{
+  "name": "fullcms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx @tailwindcss/cli -i ./public/assets/css/input.css -o ./public/assets/css/style.css --minify",
+    "watch": "npx @tailwindcss/cli -i ./public/assets/css/input.css -o ./public/assets/css/style.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.0",
+    "alpinejs": "^3.15.12",
+    "lucide": "^1.16.0",
+    "preline": "^4.2.0",
+    "quill": "^2.0.2",
+    "tailwindcss": "^4.3.0"
+  }
+}
