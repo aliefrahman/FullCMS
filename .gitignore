@@ -1,0 +1,49 @@
+# ==========================================
+# GITIGNORE FOR FULLCMS WEB APPLICATION
+# ==========================================
+
+# 1. Dependency Directories
+node_modules/
+vendor/
+
+# 2. Package Manager Log Files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 3. System / OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 4. IDE / Editor Configurations
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.project
+.settings/
+.buildpath
+
+# 5. PHP Logs
+*.log
+/logs/
+
+# 6. Sensitive Environment / Local Configuration Files
+.env
+.env.local
+.env.*.local
+config/config.local.php
+
+# 7. User Media & Dynamic Uploads
+# (Abaikan semua berkas yang diunggah pengguna, namun pertahankan folder agar tidak terhapus)
+public/uploads/*
+!public/uploads/.gitkeep

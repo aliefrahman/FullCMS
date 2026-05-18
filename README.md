@@ -10,7 +10,7 @@
 
 - **Aesthetics Glassmorphism:** Tampilan modern berbasis Tailwind CSS v4 dengan efek transparansi, _blur backdrop_, dan _vibrant gradients_.
 - **Mikro-Animasi Responsif:** Animasi transisi yang halus berbasis Alpine.js untuk memanjakan mata pengguna.
-- **Tipografi Elegan:** Integrasi font Google premium (_Outfit_ untuk tajuk utama & _Plus Jakarta Sans_ untuk teks bacaan).
+- **Tipografi Elegan:** Integrasi font Google premium (_Outfit_ untuk tajuk utama & _Plus Jakarta Sans* untuk teks bacaan).
 - **Dual Mode Form:** Halaman masuk/daftar dinamis dalam satu kartu otentikasi tanpa memuat ulang halaman (_Single Page Experience_).
 
 ### 🛡️ 2. Paket Keamanan Tingkat Tinggi (Hardened Security Suite)
@@ -128,10 +128,10 @@ Untuk memudahkan peninjauan fitur berdasarkan hak akses (_role-based authorizati
 
 ## 🛡️ Standar Penulisan Kode Aman (Secure Coding Best Practices)
 
-- **Pencegahan SQL Injection:** Selalu gunakan `$this->db->bind()` di dalam model. Hindari penggabungan string mentah pada query SQL.
-- **Pencegahan XSS:** Saat mencetak variabel dinamis di views, selalu bungkus dengan fungsi pembungkus global `e()` atau `\App\Helpers\Security::escape()`.
-- **Validasi Peran Pengguna:** Di setiap aksi dashboard backend yang sensitif, panggil `\App\Helpers\Auth::requirePermission('nama_izin')` untuk memblokir akses tidak sah.
-- **Audit Trail:** Selalu catat operasi kritis (tambah/edit/hapus data penting) menggunakan `\App\Helpers\Security::logAudit('NAMA_AKSI', 'Rincian aktivitas')`.
+- - **Pencegahan SQL Injection:** Selalu gunakan `$this->db->bind()` di dalam model. Hindari penggabungan string mentah pada query SQL.
+- - **Pencegahan XSS:** Saat mencetak variabel dinamis di views, selalu bungkus dengan fungsi pembungkus global `e()` atau `\App\Helpers\Security::escape()`.
+- - **Validasi Peran Pengguna:** Di setiap aksi dashboard backend yang sensitif, panggil `\App\Helpers\Auth::requirePermission('nama_izin')` untuk memblokir akses tidak sah.
+- - **Audit Trail:** Selalu catat operasi kritis (tambah/edit/hapus data penting) menggunakan `\App\Helpers\Security::logAudit('NAMA_AKSI', 'Rincian aktivitas')`.
 
 ---
 
