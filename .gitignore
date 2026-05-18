@@ -3,8 +3,8 @@
 # ==========================================
 
 # 1. Dependency Directories
-node_modules
-vendor
+node_modules/
+vendor/
 
 # 2. Package Manager Log Files
 npm-debug.log*
@@ -45,5 +45,5 @@ config/config.local.php
 
 # 7. User Media & Dynamic Uploads
 # (Abaikan semua berkas yang diunggah pengguna, namun pertahankan folder agar tidak terhapus)
-uploads/*
-!uploads/.gitkeep
+public/uploads/*
+!public/uploads/.gitkeep
