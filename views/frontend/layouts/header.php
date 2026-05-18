@@ -1,8 +1,14 @@
 <?php
 use App\Helpers\Session;
+use App\Models\Category;
+
 $isLoggedIn = Session::has('user_id');
 $role = Session::get('role');
 $isStaff = $isLoggedIn && in_array($role, ['admin', 'editor', 'author']);
+
+// Load only categories with published articles dynamically
+$navCategoryModel = new Category();
+$navCategories = $navCategoryModel->getNotEmptyPublished();
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -282,6 +288,17 @@ $isStaff = $isLoggedIn && in_array($role, ['admin', 'editor', 'author']);
                     <span
                         class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
                 </a>
+
+                <!-- Dynamic Horizontal Categories Menu -->
+                <?php foreach ($navCategories as $cat): ?>
+                    <a href="<?php echo PUBLIC_URL; ?>/category?slug=<?php echo e($cat->slug); ?>"
+                        class="font-medium text-slate-650 hover:text-primary-600 transition-colors duration-200 relative group py-2">
+                        <?php echo e($cat->name); ?>
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                <?php endforeach; ?>
+
                 <a href="<?php echo PUBLIC_URL; ?>/read"
                     class="font-medium text-slate-600 hover:text-primary-600 transition-colors duration-200 relative group py-2">
                     Articles
@@ -312,7 +329,7 @@ $isStaff = $isLoggedIn && in_array($role, ['admin', 'editor', 'author']);
                         </a>
                     <?php else: ?>
                         <span class="text-sm font-semibold text-slate-700">Halo,
-                            <?php echo htmlspecialchars(Session::get('username')); ?>!</span>
+                            <?php echo e(Session::get('username')); ?>!</span>
                     <?php endif; ?>
                     <a href="<?php echo PUBLIC_URL; ?>/auth/logout"
                         class="bg-rose-50 px-5 py-2.5 rounded-xl text-sm font-semibold text-rose-500 hover:bg-rose-100 transition-all duration-200">
@@ -340,9 +357,16 @@ $isStaff = $isLoggedIn && in_array($role, ['admin', 'editor', 'author']);
             x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-4"
-            class="md:hidden absolute top-20 left-0 w-full bg-white border-b border-slate-100 px-4 py-6 space-y-4 shadow-lg">
+            class="md:hidden absolute top-20 left-0 w-full bg-white border-b border-slate-100 px-4 py-6 space-y-4 shadow-lg overflow-y-auto max-h-[85vh]">
             <a href="<?php echo PUBLIC_URL; ?>/"
                 class="block font-semibold text-slate-700 hover:text-primary-600 transition-colors">Home</a>
+
+            <!-- Dynamic Mobile Categories Menu -->
+            <?php foreach ($navCategories as $cat): ?>
+                <a href="<?php echo PUBLIC_URL; ?>/category?slug=<?php echo e($cat->slug); ?>"
+                    class="block font-semibold text-slate-750 hover:text-primary-600 transition-colors"><?php echo e($cat->name); ?></a>
+            <?php endforeach; ?>
+
             <a href="<?php echo PUBLIC_URL; ?>/read"
                 class="block font-semibold text-slate-700 hover:text-primary-600 transition-colors">Articles</a>
             <a href="#" class="block font-semibold text-slate-700 hover:text-primary-600 transition-colors">About</a>
@@ -356,7 +380,7 @@ $isStaff = $isLoggedIn && in_array($role, ['admin', 'editor', 'author']);
                             Admin</a>
                     <?php else: ?>
                         <div class="text-center text-sm font-semibold text-slate-700">Halo,
-                            <?php echo htmlspecialchars(Session::get('username')); ?>!
+                            <?php echo e(Session::get('username')); ?>!
                         </div>
                     <?php endif; ?>
                     <a href="<?php echo PUBLIC_URL; ?>/auth/logout"

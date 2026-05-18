@@ -51,10 +51,17 @@ require_once __DIR__ . '/layouts/header.php'; ?>
 
                             <!-- Category Badge on thumbnail -->
                             <div class="absolute top-4 left-4 z-10">
-                                <span
-                                    class="px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-sm text-[10px] font-bold text-white uppercase tracking-wider">
-                                    <?php echo htmlspecialchars($art->category_name ?? 'Umum'); ?>
-                                </span>
+                                <?php if (!empty($art->category_slug)): ?>
+                                    <a href="<?php echo PUBLIC_URL; ?>/category?slug=<?php echo htmlspecialchars($art->category_slug); ?>"
+                                        class="px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-sm text-[10px] font-bold text-white uppercase tracking-wider hover:bg-primary-600 transition-colors">
+                                        <?php echo htmlspecialchars($art->category_name); ?>
+                                    </a>
+                                <?php else: ?>
+                                    <span
+                                        class="px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-sm text-[10px] font-bold text-white uppercase tracking-wider">
+                                        Umum
+                                    </span>
+                                <?php endif; ?>
                             </div>
                         </div>
 

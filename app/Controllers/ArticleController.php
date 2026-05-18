@@ -81,6 +81,7 @@ class ArticleController extends Controller
         $featuredImageCaption = \App\Helpers\Security::sanitize(trim($_POST['featured_image_caption'] ?? ''));
 
         if (empty($title) || empty($content)) {
+            Session::flash('old_input', $_POST);
             Session::flash('error', 'Judul dan konten artikel wajib diisi.');
             header('Location: ' . PUBLIC_URL . '/admin/articles/create');
             exit;
@@ -107,6 +108,7 @@ class ArticleController extends Controller
             if ($uploadResult['success']) {
                 $featuredImage = $uploadResult['filename'];
             } else {
+                Session::flash('old_input', $_POST);
                 Session::flash('error', 'Gagal mengunggah gambar: ' . $uploadResult['message']);
                 header('Location: ' . PUBLIC_URL . '/admin/articles/create');
                 exit;
@@ -138,12 +140,14 @@ class ArticleController extends Controller
             \App\Helpers\Security::logAudit('ARTICLE_CREATED', 'Article created successfully: ' . $title);
 
             Session::flash('success', 'Artikel berhasil disimpan.');
+            header('Location: ' . PUBLIC_URL . '/admin/articles');
+            exit;
         } else {
+            Session::flash('old_input', $_POST);
             Session::flash('error', 'Gagal menyimpan artikel.');
+            header('Location: ' . PUBLIC_URL . '/admin/articles/create');
+            exit;
         }
-
-        header('Location: ' . PUBLIC_URL . '/admin/articles');
-        exit;
     }
 
     public function edit()

@@ -51,11 +51,12 @@ class HomeController extends Controller
 
         $db = new Database();
         
-        // Fetch Category name
-        $db->query("SELECT name FROM categories WHERE id = :id");
+        // Fetch Category name and slug
+        $db->query("SELECT name, slug FROM categories WHERE id = :id");
         $db->bind(':id', $article->category_id);
         $cat = $db->single();
         $article->category_name = $cat ? $cat->name : 'Tanpa Kategori';
+        $article->category_slug = $cat ? $cat->slug : '';
 
         // Fetch Author name
         $db->query("SELECT full_name FROM users WHERE id = :id");
@@ -115,6 +116,32 @@ class HomeController extends Controller
         $this->view('frontend/page', [
             'title' => $page->title . ' - NexusCMS',
             'page' => $page
+        ]);
+    }
+
+    public function category()
+    {
+        $slug = trim($_GET['slug'] ?? '');
+        
+        if (empty($slug)) {
+            $this->view('error/404', ['title' => 'Kategori Tidak Ditemukan']);
+            exit;
+        }
+
+        $categoryModel = new Category();
+        $category = $categoryModel->getBySlug($slug);
+
+        if (!$category) {
+            $this->view('error/404', ['title' => 'Kategori Tidak Ditemukan']);
+            exit;
+        }
+
+        $articles = $this->articleModel->getPublishedByCategory($category->id);
+
+        $this->view('frontend/category', [
+            'title' => 'Kategori: ' . $category->name . ' - NexusCMS',
+            'category' => $category,
+            'articles' => $articles
         ]);
     }
 }
