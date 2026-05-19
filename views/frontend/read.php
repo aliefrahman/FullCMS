@@ -88,7 +88,7 @@ foreach (array_slice($parts, 0, 2) as $p) {
                                 <i data-lucide="code" class="w-8 h-8 text-white"></i>
                             </div>
                             <h3 class="font-display font-extrabold text-2xl text-white max-w-lg mx-auto leading-tight">
-                                <?php echo htmlspecialchars($article->title); ?>
+                                <?php echo e($article->title); ?>
                             </h3>
                         </div>
                     <?php endif; ?>
@@ -96,13 +96,13 @@ foreach (array_slice($parts, 0, 2) as $p) {
 
                 <?php if ($article->featured_image && !empty($article->featured_image_caption)): ?>
                     <p class="text-xs text-center text-slate-500 font-semibold italic mt-2.5 px-4 tracking-wide">
-                        📷 <?php echo htmlspecialchars($article->featured_image_caption); ?>
+                        📷 <?php echo e($article->featured_image_caption); ?>
                     </p>
                 <?php endif; ?>
 
                 <!-- Article Body Card (Glassmorphic) -->
                 <div class="glass rounded-3xl p-6 sm:p-6 shadow-lg relative border border-white/40 space-y-6">
-                    <div class="ql-container">
+                    <div class="ql-container ql-bubble">
                         <div class="ql-editor text-slate-700 leading-relaxed text-md sm:text-lg">
                             <?php echo $article->content; ?>
                         </div>

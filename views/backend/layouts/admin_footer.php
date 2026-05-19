@@ -6,6 +6,14 @@
 <script>
     lucide.createIcons();
 </script>
+
+<!-- Highlight.js Script -->
+<script src="<?= PUBLIC_URL ?>/assets/highlight/highlight.min.js"></script>
+<script>
+    // Daftarkan hljs ke objek window agar dapat dideteksi secara otomatis oleh Quill
+    window.hljs = hljs;
+</script>
+
 <!-- Quill Script & Init -->
 <script src="<?= PUBLIC_URL ?>/assets/quill/dist/quill.js"></script>
 <script>
@@ -14,6 +22,7 @@
             theme: 'snow',
             placeholder: 'Tuliskan isi artikel Anda di sini secara interaktif...',
             modules: {
+                syntax: true,
                 toolbar: [
                     [{ 'header': [1, 2, 3, false] }],
                     ['bold', 'italic', 'underline', 'strike'],

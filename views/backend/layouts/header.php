@@ -190,6 +190,203 @@
         [x-cloak] {
             display: none !important;
         }
+
+        < !-- Rich Content CSS Styling -->
+
+        /* Reset some default border and padding from Quill container in read mode */
+        .ql-container.ql-bubble {
+            border: none !important;
+            font-family: inherit !important;
+            font-size: inherit !important;
+        }
+
+        .ql-editor {
+            padding: 0 !important;
+            overflow-y: visible !important;
+            line-height: 1.650 !important;
+            /* Inisialisasi counter di level root agar tidak direset tiap <ol> terpisah */
+            counter-reset: list-1 list-2 list-3 !important;
+        }
+
+        .ql-editor p {
+            margin-bottom: 1rem !important;
+        }
+
+        /* Restore Quill list markers — override Tailwind Preflight resets with !important */
+        .ql-editor ul,
+        .ql-editor ol {
+            list-style-type: none !important;
+            padding-left: 0 !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
+        .ql-editor li {
+            display: block !important;
+            position: relative !important;
+            padding-left: 1.5em !important;
+            margin-bottom: 0.375rem !important;
+        }
+
+        .ql-editor li::before {
+            display: inline-block !important;
+            white-space: nowrap !important;
+            text-align: right !important;
+            position: absolute !important;
+            left: 0 !important;
+            width: 1.2em !important;
+            font-weight: 600 !important;
+        }
+
+        /* Bullet list — simbol bulat */
+        .ql-editor ul li::before {
+            content: "\2022" !important;
+            color: #4b5563 !important;
+        }
+
+        /* Ordered list — counter berurutan 1, 2, 3...
+                       counter-increment di sini agar tiap li menaikkan counter,
+                       meski setiap item QuillJS dibungkus tag <ol> berbeda */
+        .ql-editor ol li {
+            counter-increment: list-1 !important;
+        }
+
+        .ql-editor ol li::before {
+            content: counter(list-1, decimal) ". " !important;
+        }
+
+        .ql-editor ol li.ql-indent-1 {
+            counter-increment: list-2 !important;
+        }
+
+        .ql-editor ol li.ql-indent-1::before {
+            content: counter(list-2, lower-alpha) ". " !important;
+        }
+
+        .ql-editor ol li.ql-indent-2 {
+            counter-increment: list-3 !important;
+        }
+
+        .ql-editor ol li.ql-indent-2::before {
+            content: counter(list-3, lower-roman) ". " !important;
+        }
+
+        /* Padding dan margin untuk ul/ol agar rapi */
+        .ql-editor ul {
+            padding-left: 1.75rem !important;
+            margin-top: 0.75rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+
+        .ql-editor ol {
+            padding-left: 1.25rem !important;
+            margin-top: 0.75rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+
+        /* Baris terakhir dipakai sebagai spacer agar tidak terlalu rapat */
+        .ql-editor li {
+            display: block !important;
+            position: relative !important;
+            padding-left: 1.5em !important;
+            margin-bottom: 0.375rem !important;
+        }
+
+        /* Custom bullets & numbers padding alignment for perfect indentation */
+        .ql-editor ul {
+            padding-left: 1.75rem !important;
+            /* Diperkecil agar rapat dan pas */
+            margin-top: 0.75rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+
+        .ql-editor ol {
+            padding-left: 1.25rem !important;
+            /* Diperkecil agar rapat dan pas */
+            margin-top: 0.75rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+
+        /* Enhance custom blockquote from Quill with premium glassmorphism */
+        .ql-editor blockquote {
+            border-left: 4px solid #3b82f6 !important;
+            padding-left: 1.25rem !important;
+            font-style: italic !important;
+            color: #475569 !important;
+            margin: 1.5rem 0 !important;
+            background-color: rgb(248 250 252 / 0.5) !important;
+            border-radius: 0 0.75rem 0.75rem 0 !important;
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+        }
+
+        /* Headings style mapping */
+        .ql-editor h1,
+        .ql-editor h2,
+        .ql-editor h3,
+        .ql-editor h4 {
+            color: #0f172a !important;
+            font-family: inherit !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+            display: block !important;
+        }
+
+        .ql-editor h1 {
+            font-size: 1.75rem !important;
+            margin-top: 2rem !important;
+            margin-bottom: 1rem !important;
+        }
+
+        .ql-editor h2 {
+            font-size: 1.4rem !important;
+            margin-top: 1.75rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+
+        .ql-editor h3 {
+            font-size: 1.2rem !important;
+            margin-top: 1.5rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        /* Inline links */
+        .ql-editor a {
+            color: #2563eb !important;
+            text-decoration: underline !important;
+            font-weight: 600 !important;
+        }
+
+        /* Code and pre tags styling match */
+        .ql-editor code {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+            padding: 0.2rem 0.4rem !important;
+            border-radius: 0.375rem !important;
+            font-family: monospace !important;
+            font-size: 0.85em !important;
+        }
+
+        .ql-editor pre {
+            background-color: #0f172a !important;
+            color: #f8fafc !important;
+            padding: 1.25rem !important;
+            border-radius: 1rem !important;
+            overflow-x: auto !important;
+            margin: 1.5rem 0 !important;
+            font-family: monospace !important;
+            font-size: 0.875rem !important;
+        }
+
+        /* Premium image styling */
+        .ql-editor img {
+            border-radius: 1rem !important;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+            margin: 1.5rem auto !important;
+            max-width: 100% !important;
+            height: auto !important;
+            display: block !important;
+        }
     </style>
 </head>
 

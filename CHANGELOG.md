@@ -4,6 +4,33 @@ Semua perubahan dan perkembangan penting pada proyek **FullCMS** didokumentasika
 
 ---
 
+## [1.3.0] - 2026-05-19
+
+### Added
+
+- **Integrasi Highlight.js & Modul Syntax Highlighting:**
+  - Menambahkan pustaka `Highlight.js` (skrip JS dan tema CSS *Atom One Dark*) pada tata letak admin (`admin_header.php` dan `admin_footer.php`).
+  - Mengaktifkan modul `syntax` pada inisialisasi editor QuillJS agar mengenali dan mempertahankan format tag `<pre>` dengan metadata bahasa pemrograman khusus (seperti `data-language="plain"`).
+- **Restorasi Gaya Tampilan Konten Kaya (Rich Content Styling Engine):**
+  - Menyusun skema CSS kustom lengkap untuk elemen `.ql-editor` di `layouts/header.php` dan `layouts/admin_header.php`.
+  - Mengembalikan visual penanda daftar berurutan/tidak berurutan (bullet & numbered lists ul/ol) yang sebelumnya hilang akibat Tailwind CSS Preflight reset.
+  - Menambahkan gaya premium bertema glassmorphism untuk kutipan `blockquote`, desain tajuk yang proporsional, tautan inline tebal, dan kartu tampilan kode `<pre>` dengan sudut melengkung.
+
+### Fixed
+
+- **Resolusi Rendering Konten di Editor Artikel (Quill Parsing Fixes):**
+  - Mengosongkan kontainer `<div id="editor">` saat pemuatan awal di halaman `edit.php` untuk mencegah konflik double-escaping HTML dari teks ter-escape, serta mengalihkan pengisian konten ke metode `quill.root.innerHTML` secara dinamis.
+  - Memperbaiki pengisian textarea input lama (`$old['content']`) pada `create.php` dengan tag PHP unescaped agar data lama tidak ter-escape ganda saat validasi form gagal.
+
+### Enhanced
+
+- **Optimalisasi Lebar Halaman Kerja Editor:**
+  - Memperlebar pembungkus halaman kerja editor (`max-w-6xl` di halaman edit dan `max-w-8xl` pada admin layout) untuk kenyamanan antarmuka saat menulis konten yang panjang.
+- **Pembersihan Navigasi Menu Utama Frontend:**
+  - Mengeliminasi tautan navigasi berulang (Home, Articles, About) pada file `views/frontend/layouts/header.php` guna menciptakan antarmuka bar navigasi yang lebih bersih, minimalis, dan berfokus pada kategori dinamis.
+
+---
+
 ## [1.2.0] - 2026-05-19
 
 ### Added
