@@ -14,7 +14,7 @@ use App\Helpers\Auth;
 $error = Session::flash('error');
 ?>
 
-<div class="space-y-6 max-w-5xl mx-auto">
+<div class="space-y-6 max-w-6xl mx-auto">
 
     <!-- Notification alerts -->
     <?php if ($error): ?>
@@ -73,14 +73,14 @@ $error = Session::flash('error');
                                 class="text-rose-500">*</span></label>
 
                         <!-- Hidden textarea to bind form submission -->
+
                         <textarea name="content" id="article-content" class="hidden"
                             required><?php echo e($article->content); ?></textarea>
 
+
                         <!-- Quill Editor Container -->
-                        <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
-                            <div id="editor" class="h-96 text-slate-800 text-sm">
-                                <?php echo e($article->content); ?>
-                            </div>
+                        <div class="p-4 border border-slate-100 rounded-xl overflow-hidden shadow-sm bg-white">
+                            <div id="editor" class="p-4 h-96 text-slate-800 text-lg"></div>
                         </div>
                     </div>
                 </div>
@@ -289,11 +289,14 @@ $error = Session::flash('error');
                                 }
                             }">
                             <div class="text-center flex flex-col items-center justify-center" x-show="!fileName">
-                                <div class="relative w-28 h-28 rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-3 group-hover:scale-102 transition-transform duration-300" x-show="previewUrl">
+                                <div class="relative w-28 h-28 rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-3 group-hover:scale-102 transition-transform duration-300"
+                                    x-show="previewUrl">
                                     <img :src="previewUrl" class="w-full h-full object-cover" alt="Current Image" />
                                 </div>
-                                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 group-hover:bg-primary-50 transition-colors mb-2" x-show="!previewUrl">
-                                    <i data-lucide="image-plus" class="h-4 w-4 text-slate-400 group-hover:text-primary-500"></i>
+                                <div class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 group-hover:bg-primary-50 transition-colors mb-2"
+                                    x-show="!previewUrl">
+                                    <i data-lucide="image-plus"
+                                        class="h-4 w-4 text-slate-400 group-hover:text-primary-500"></i>
                                 </div>
                                 <div class="text-sm leading-6 text-slate-600 font-semibold">
                                     <span class="text-primary-600 hover:text-primary-500">
@@ -301,27 +304,32 @@ $error = Session::flash('error');
                                     </span>
                                 </div>
                                 <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-1">
-                                    <?php echo $article->featured_image ? 'Biarkan kosong jika tidak diganti' : 'PNG, JPG, WEBP HINGGA 2MB'; ?></p>
+                                    <?php echo $article->featured_image ? 'Biarkan kosong jika tidak diganti' : 'PNG, JPG, WEBP HINGGA 2MB'; ?>
+                                </p>
                             </div>
-                            
-                            <div class="w-full flex flex-col items-center justify-center text-center" x-show="fileName" x-cloak>
-                                <div class="relative w-28 h-28 rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-3 group-hover:scale-102 transition-transform duration-300" x-show="previewUrl">
+
+                            <div class="w-full flex flex-col items-center justify-center text-center" x-show="fileName"
+                                x-cloak>
+                                <div class="relative w-28 h-28 rounded-2xl overflow-hidden border border-slate-200 shadow-sm mb-3 group-hover:scale-102 transition-transform duration-300"
+                                    x-show="previewUrl">
                                     <img :src="previewUrl" class="w-full h-full object-cover" alt="New Preview Image" />
                                 </div>
-                                <p class="text-xs font-bold text-slate-800 truncate max-w-[240px] px-4" x-text="fileName"></p>
-                                <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">Klik untuk mengganti gambar</p>
+                                <p class="text-xs font-bold text-slate-800 truncate max-w-[240px] px-4"
+                                    x-text="fileName"></p>
+                                <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-1">Klik
+                                    untuk mengganti gambar</p>
                             </div>
-                            
+
                             <input id="file-upload" name="featured_image" type="file"
                                 accept="image/png, image/jpeg, image/webp"
                                 class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                @click="$event.target.value = ''"
-                                @change="validateFile($event)" />
+                                @click="$event.target.value = ''" @change="validateFile($event)" />
                         </div>
 
                         <!-- Alpine.js Error Message for File Upload -->
                         <div x-show="errorMessage" x-transition.duration.300ms
-                            class="mt-2 p-3 rounded-xl bg-rose-50 border border-rose-100 text-rose-650 text-xs font-semibold flex items-center gap-2 shadow-xs" x-cloak>
+                            class="mt-2 p-3 rounded-xl bg-rose-50 border border-rose-100 text-rose-650 text-xs font-semibold flex items-center gap-2 shadow-xs"
+                            x-cloak>
                             <i data-lucide="alert-circle" class="w-4 h-4 text-rose-500 shrink-0 animate-bounce"></i>
                             <span x-text="errorMessage"></span>
                         </div>

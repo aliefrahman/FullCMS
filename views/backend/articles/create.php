@@ -69,7 +69,7 @@ $old = Session::flash('old_input') ?? [];
                         <label class="text-xs font-bold text-slate-650 tracking-wide uppercase">Konten Lengkap <span
                                 class="text-rose-500">*</span></label>
                         <!-- Hidden textarea to bind form submission -->
-                        <textarea name="content" id="article-content" class="hidden" required><?php echo e($old['content'] ?? ''); ?></textarea>
+                        <textarea name="content" id="article-content" class="hidden" required><?php echo $old['content'] ?? ''; ?></textarea>
                         <!-- Quill Editor Container -->
                         <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
                             <div id="editor" class="h-96 text-slate-800 text-sm"></div>

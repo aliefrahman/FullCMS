@@ -35,7 +35,7 @@ $navCategories = $navCategoryModel->getNotEmptyPublished();
     <!-- Alpine.js -->
     <script defer src="<?php echo PUBLIC_URL; ?>/assets/alpinejs/dist/cdn.min.js"></script>
 
-    <link rel="stylesheet" href="<?php echo PUBLIC_URL; ?>/assets/quill/dist/quill.snow.css">
+    <link rel="stylesheet" href="<?php echo PUBLIC_URL; ?>/assets/quill/dist/quill.bubble.css">
 
     <style>
         body {
@@ -64,7 +64,7 @@ $navCategories = $navCategoryModel->getNotEmptyPublished();
         < !-- Rich Content CSS Styling -->
 
         /* Reset some default border and padding from Quill container in read mode */
-        .ql-container.ql-snow {
+        .ql-container.ql-bubble {
             border: none !important;
             font-family: inherit !important;
             font-size: inherit !important;
@@ -73,7 +73,7 @@ $navCategories = $navCategoryModel->getNotEmptyPublished();
         .ql-editor {
             padding: 0 !important;
             overflow-y: visible !important;
-            line-height: 1.625 !important;
+            line-height: 1.650 !important;
             /* Inisialisasi counter di level root agar tidak direset tiap <ol> terpisah */
             counter-reset: list-1 list-2 list-3 !important;
         }
@@ -282,13 +282,6 @@ $navCategories = $navCategoryModel->getNotEmptyPublished();
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center gap-8">
-                <a href="<?php echo PUBLIC_URL; ?>/"
-                    class="font-medium text-slate-600 hover:text-primary-600 transition-colors duration-200 relative group py-2">
-                    Home
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-
                 <!-- Dynamic Horizontal Categories Menu -->
                 <?php foreach ($navCategories as $cat): ?>
                     <a href="<?php echo PUBLIC_URL; ?>/category?slug=<?php echo e($cat->slug); ?>"
@@ -299,18 +292,7 @@ $navCategories = $navCategoryModel->getNotEmptyPublished();
                     </a>
                 <?php endforeach; ?>
 
-                <a href="<?php echo PUBLIC_URL; ?>/read"
-                    class="font-medium text-slate-600 hover:text-primary-600 transition-colors duration-200 relative group py-2">
-                    Articles
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a href="#"
-                    class="font-medium text-slate-600 hover:text-primary-600 transition-colors duration-200 relative group py-2">
-                    About
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full"></span>
-                </a>
+
                 <a href="#"
                     class="font-medium text-slate-600 hover:text-primary-600 transition-colors duration-200 relative group py-2">
                     Contact
@@ -358,8 +340,6 @@ $navCategories = $navCategoryModel->getNotEmptyPublished();
             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-4"
             class="md:hidden absolute top-20 left-0 w-full bg-white border-b border-slate-100 px-4 py-6 space-y-4 shadow-lg overflow-y-auto max-h-[85vh]">
-            <a href="<?php echo PUBLIC_URL; ?>/"
-                class="block font-semibold text-slate-700 hover:text-primary-600 transition-colors">Home</a>
 
             <!-- Dynamic Mobile Categories Menu -->
             <?php foreach ($navCategories as $cat): ?>
@@ -367,9 +347,6 @@ $navCategories = $navCategoryModel->getNotEmptyPublished();
                     class="block font-semibold text-slate-750 hover:text-primary-600 transition-colors"><?php echo e($cat->name); ?></a>
             <?php endforeach; ?>
 
-            <a href="<?php echo PUBLIC_URL; ?>/read"
-                class="block font-semibold text-slate-700 hover:text-primary-600 transition-colors">Articles</a>
-            <a href="#" class="block font-semibold text-slate-700 hover:text-primary-600 transition-colors">About</a>
             <a href="#" class="block font-semibold text-slate-700 hover:text-primary-600 transition-colors">Contact</a>
             <div class="h-px bg-slate-100 w-full my-4"></div>
             <div class="flex flex-col gap-3">
@@ -390,9 +367,6 @@ $navCategories = $navCategoryModel->getNotEmptyPublished();
                     <a href="<?php echo PUBLIC_URL; ?>/auth"
                         class="w-full text-center py-3 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors">Sign
                         In</a>
-                    <a href="<?php echo PUBLIC_URL; ?>/auth"
-                        class="w-full text-center py-3 rounded-xl text-sm font-semibold bg-linear-to-r from-primary-600 to-accent-600 text-white shadow-md">Get
-                        Started</a>
                 <?php endif; ?>
             </div>
         </div>

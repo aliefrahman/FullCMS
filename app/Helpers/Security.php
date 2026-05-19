@@ -320,11 +320,18 @@ class Security
         return (int)$currentUserId === (int)$userIdToModify;
     }
 
+    private static $isLoggingAudit = false;
+
     /**
      * 8. Audit Logging: Safe DB Audit insertion
      */
     public static function logAudit($action, $details = null)
     {
+        if (self::$isLoggingAudit) {
+            return;
+        }
+        self::$isLoggingAudit = true;
+
         Session::init();
         $userId = Session::get('user_id');
         $username = Session::get('username');
@@ -344,6 +351,8 @@ class Security
         } catch (\Exception $e) {
             error_log("Audit logging failure: " . $e->getMessage());
         }
+
+        self::$isLoggingAudit = false;
     }
 
     /**
